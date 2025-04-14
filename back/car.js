@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 // Define the car schema
 const carSchema = new Schema({
-    id: Number,
+    
   name: { type: String, required: true },
   rent_per_day: { type: Number, required: true },
   details: {

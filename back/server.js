@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const CarData = require('./car');
 const bikeData = require('./bike');
 const destiny = require('./destiny');
-const gears = require('./gears');
+const Gears = require('./gears');
 const User = require('./userSchema');
 const bcrypt = require('bcrypt'); // For password hashing
 const jwt = require("jsonwebtoken");
@@ -68,6 +68,27 @@ if(!cars){
 res.json({message:"no cars found"});
 }
 });
+//route to find car by id
+server.get('/api/cars/:id', async (req, res) => {
+  const carId = req.params.id;
+  // Validate ObjectId format
+  if (!mongoose.Types.ObjectId.isValid(carId)) {
+    return res.status(400).json({ message: "Invalid car ID format" });
+  }
+  try {
+    const car = await CarData.findById(carId); 
+    
+    if (!car) {  // If no car is found with the given ID
+      return res.status(404).json({ message: "Car not found" });
+    }
+    
+    res.json(car);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving car" });
+  }
+});
+
 // route to find bikes
 server.get('/api/bikes',async(req,res) => {
   const bikes = await bikeData.find({});
@@ -76,8 +97,50 @@ server.get('/api/bikes',async(req,res) => {
   res.json({message:"no bikes found"});
   }
   });
+
+// Route to find a bike by ID
+server.get('/api/bikes/:id', async (req, res) => {
+  const { id } = req.params;
+
+  // Validate ObjectId format
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid bike ID format' });
+  }
+
+  try {
+    const bike = await bikeData.findById(id);  // Find the bike by ID
+    if (!bike) {
+      return res.status(404).json({ message: "Bike not found" });
+    }
+    res.json(bike);
+  } catch (error) {
+    console.error('Error fetching bike:', error);
+    res.status(500).json({ message: "Error retrieving bike" });
+  }
+})
+// Route to find  gears
+server.get('/api/gears',async(req,res) => {
  
+  const CampingGear = await Gears.find({});
+  res.json(CampingGear);
+  if(!CampingGear){
+  res.json({message:"no bikes found"});
+  }
+  });
+// Route to find  gear by id
+server.get('/api/gears/:id',async(req,res) => {
+  const{id} = req.params.id;
   
+  // Validate ObjectId format
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid bike ID format' });
+  }
+  const Gear = await Gears.findById({});
+  res.json(Gear);
+  if(!Gear){
+  res.json({message:"no bikes found"});
+  }
+  });
 // Define the POST route to register a user
 server.post('/api/register', async (req, res) => {
   const { name, email, password, termsAccepted } = req.body;
