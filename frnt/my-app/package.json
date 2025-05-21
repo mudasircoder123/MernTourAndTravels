@@ -3,11 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@coreui/icons": "^3.0.1",
+    "@material-tailwind/react": "^2.1.10",
+    "@tailwindcss/vite": "^4.1.7",
+    "antd": "^5.25.1",
+    "axios": "^1.9.0",
     "cra-template": "1.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-responsive": "^10.0.1",
     "react-router-dom": "^7.1.1",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,8 +42,8 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.1",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17"
   }
 }

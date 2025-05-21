@@ -1,130 +1,362 @@
- const cars = [{
-    "_id": {
-      "$oid": "678b84d4c5b77acea040d540"
+const cars = [
+  {
+    name: "Toyota Fortuner",
+    image: "https://images.app.goo.gl/RirMDmC15xS2oqEp8",
+    rent_per_day: 3500,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Automatic",
+      color: "White",
+      seating_capacity: 7,
     },
-    "name": "Hyundai i20",
-    "img": "",
-    "rent_per_day": 70,
-    "description": "A compact hatchback offering style and efficiency.",
-    "details": {
-      "model_year": 2021,
-      "fuel_type": "Petrol",
-      "transmission": "Manual",
-      "color": "Silver",
-      "seating_capacity": 5
-    }
   },
   {
-    "_id": {
-      "$oid": "678b84d4c5b77acea040d541"
+    name: "Hyundai Creta",
+    image: "https://images.app.goo.gl/ka8yVw5BSmF6ZFzY6",
+    rent_per_day: 2200,
+    details: {
+      model_year: 2022,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Red",
+      seating_capacity: 5,
     },
-    "name": "Maruti Suzuki Swift",
-    "img": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Maruti/Swift/9226/1739945896166/front-left-side-47.jpg?tr=w-664",
-    "rent_per_day": 60,
-    "description": "A popular hatchback known for its sporty performance.",
-    "details": {
-      "model_year": 2020,
-      "fuel_type": "Petrol",
-      "transmission": "Manual",
-      "color": "Red",
-      "seating_capacity": 5
-    }
   },
   {
-    "_id": {
-      "$oid": "678b84d4c5b77acea040d542"
+    name: "Mahindra Thar",
+    image: "https://images.app.goo.gl/FjQbBwKfDXDRyLqTA",
+    rent_per_day: 2800,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Manual",
+      color: "Black",
+      seating_capacity: 4,
     },
-    "name": "Toyota",
-    "img": "./images/toyota.jpg",
-    "rent_per_day": 80,
-    "description": "A premium hatchback with German engineering and great driving experience.",
-    "details": {
-      "model_year": 2021,
-      "fuel_type": "Petrol",
-      "transmission": "Automatic",
-      "color": "Blue",
-      "seating_capacity": 5
-    }
   },
   {
-    "_id": {
-      "$oid": "678b84d4c5b77acea040d543"
+    name: "Maruti Swift",
+    image: "https://images.app.goo.gl/9991xz735DP1iEzF6",
+    rent_per_day: 1500,
+    details: {
+      model_year: 2021,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Silver",
+      seating_capacity: 5,
     },
-    "name": "Range Rover",
-    "img": "./images/rangerover.jpg",
-    "rent_per_day": 250,
-    "description": "A luxury SUV offering off-road capabilities and premium features.",
-    "details": {
-      "model_year": 2022,
-      "fuel_type": "Diesel",
-      "transmission": "Automatic",
-      "color": "Black",
-      "seating_capacity": 5
-    }
   },
   {
-    "_id": {
-      "$oid": "678b84d4c5b77acea040d544"
+    name: "Honda City",
+    image: "https://images.app.goo.gl/PBZAUdaAr5nEu8DEA",
+    rent_per_day: 2000,
+    details: {
+      model_year: 2022,
+      fuel_type: "Petrol",
+      transmission: "Automatic",
+      color: "Grey",
+      seating_capacity: 5,
     },
-    "name": "Mahindra Scorpio",
-    "img": "./images/scorpio.jpg",
-    "rent_per_day": 90,
-    "description": "A rugged SUV with strong off-road abilities and a spacious cabin.",
-    "details": {
-      "model_year": 2021,
-      "fuel_type": "Diesel",
-      "transmission": "Manual",
-      "color": "Green",
-      "seating_capacity": 7
-    }
   },
   {
-    "_id": {
-      "$oid": "678b84d4c5b77acea040d545"
+    name: "Tata Nexon",
+    image: "https://images.app.goo.gl/e4Mub6btxTvdCBt4A",
+    rent_per_day: 1900,
+    details: {
+      model_year: 2023,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Blue",
+      seating_capacity: 5,
     },
-    "name": "Toyota Fortuner",
-    "img": "",
-    "rent_per_day": 150,
-    "description": "A large and luxurious SUV offering style, space, and performance.",
-    "details": {
-      "model_year": 2022,
-      "fuel_type": "Diesel",
-      "transmission": "Automatic",
-      "color": "White",
-      "seating_capacity": 7
-    }
-  },
- 
-  {
-    "_id": {
-      "$oid": "678b84d4c5b77acea040d546"
-    },
-    "name": "Mahindra Thar",
-    "img": "https://example.com/images/mahindra_thar.jpg",
-    "rent_per_day": 100,
-    "description": "A compact 4x4 SUV designed for adventure lovers with a strong off-road presence.",
-    "details": {
-      "model_year": 2021,
-      "fuel_type": "Diesel",
-      "transmission": "Manual",
-      "color": "Orange",
-      "seating_capacity": 4
-    }
   },
   {
-    "_id": {
-      "$oid": "678b84d4c5b77acea040d547"
+    name: "Kia Seltos",
+    image: "https://images.app.goo.gl/fWMcinSpJZsS4EhL9",
+    rent_per_day: 2400,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Automatic",
+      color: "White",
+      seating_capacity: 5,
     },
-    "name": "Mahindra XUV700",
-    "img": "https://example.com/images/mahindra_xuv700.jpg",
-    "rent_per_day": 120,
-    "description": "A premium SUV with modern features and powerful performance.",
-    "details": {
-      "model_year": 2022,
-      "fuel_type": "Petrol",
-      "transmission": "Automatic",
-      "color": "Red",
-      "seating_capacity": 7
-    }
-  }
- ]
+  },
+  {
+    name: "Maruti Ertiga",
+    image: "https://images.app.goo.gl/UN8EXBm2TwYR97K69",
+    rent_per_day: 2100,
+    details: {
+      model_year: 2022,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Beige",
+      seating_capacity: 7,
+    },
+  },
+  {
+    name: "Renault Kwid",
+    image: "https://images.app.goo.gl/GDX4QzDXmVGH35sJ7",
+    rent_per_day: 1200,
+    details: {
+      model_year: 2021,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Orange",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Ford EcoSport",
+    image: "https://images.app.goo.gl/orPXUZS6WMhF5JhY8",
+    rent_per_day: 2000,
+    details: {
+      model_year: 2022,
+      fuel_type: "Diesel",
+      transmission: "Manual",
+      color: "Grey",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Jeep Compass",
+    image: "https://images.app.goo.gl/neM5j9pbB26NF4oY7",
+    rent_per_day: 3000,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Automatic",
+      color: "Green",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Skoda Kushaq",
+    image: "https://images.app.goo.gl/1CrcsP64kqegfyhR9",
+    rent_per_day: 2600,
+    details: {
+      model_year: 2023,
+      fuel_type: "Petrol",
+      transmission: "Automatic",
+      color: "Red",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Volkswagen Polo",
+    image: "https://images.app.goo.gl/xjRA9VK6w1ARv1a38",
+    rent_per_day: 1700,
+    details: {
+      model_year: 2021,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Blue",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "MG Hector",
+    image: "https://images.app.goo.gl/sFZwWpKhK1rTKgRaA",
+    rent_per_day: 2700,
+    details: {
+      model_year: 2022,
+      fuel_type: "Petrol",
+      transmission: "Automatic",
+      color: "Black",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Toyota Innova Crysta",
+    image: "https://images.app.goo.gl/uNKDGwkaqsbjKmUEA",
+    rent_per_day: 3200,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Automatic",
+      color: "White",
+      seating_capacity: 7,
+    },
+  },
+  {
+    name: "Nissan Magnite",
+    image: "https://images.app.goo.gl/EwkWJMatCjCAHBeD7",
+    rent_per_day: 1800,
+    details: {
+      model_year: 2022,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Bronze",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Hyundai Verna",
+    image: "https://images.app.goo.gl/91BhrHUMod1MGEp5A",
+    rent_per_day: 2100,
+    details: {
+      model_year: 2023,
+      fuel_type: "Petrol",
+      transmission: "Automatic",
+      color: "Silver",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Tata Safari",
+    image: "https://images.app.goo.gl/Tpd2huUvzPmKE6HQA",
+    rent_per_day: 3300,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Automatic",
+      color: "Black",
+      seating_capacity: 7,
+    },
+  },
+  {
+    name: "Hyundai i20",
+    image: "https://images.app.goo.gl/cJjrQggzNsB9f7Kw7",
+    rent_per_day: 1600,
+    details: {
+      model_year: 2022,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "White",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Honda Amaze",
+    image: "https://images.app.goo.gl/ba5mrmjPAidJdDGW8",
+    rent_per_day: 1700,
+    details: {
+      model_year: 2021,
+      fuel_type: "Petrol",
+      transmission: "Automatic",
+      color: "Blue",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Mahindra XUV700",
+    image: "https://images.app.goo.gl/N8qJsPX61z7crjLw8",
+    rent_per_day: 3500,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Automatic",
+      color: "Silver",
+      seating_capacity: 7,
+    },
+  },
+  {
+    name: "Toyota Glanza",
+    image: "https://images.app.goo.gl/w3eXRtDvMXqTQ5HK7",
+    rent_per_day: 1600,
+    details: {
+      model_year: 2022,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Red",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Maruti Baleno",
+    image: "https://images.app.goo.gl/DN8ENySCBJpL9RBw8",
+    rent_per_day: 1700,
+    details: {
+      model_year: 2023,
+      fuel_type: "Petrol",
+      transmission: "Automatic",
+      color: "Grey",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Ford Endeavour",
+    image: "https://images.app.goo.gl/T1kdfTp8pcxgtonZ9",
+    rent_per_day: 4000,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Automatic",
+      color: "Black",
+      seating_capacity: 7,
+    },
+  },
+  {
+    name: "Chevrolet Trailblazer",
+    image: "https://images.app.goo.gl/PrmrM9iSkjwLPCGd7",
+    rent_per_day: 3100,
+    details: {
+      model_year: 2022,
+      fuel_type: "Diesel",
+      transmission: "Manual",
+      color: "Dark Blue",
+      seating_capacity: 7,
+    },
+  },
+  {
+    name: "Volkswagen Virtus",
+    image: "https://images.app.goo.gl/r5ULATyM1htKz1NHA",
+    rent_per_day: 2500,
+    details: {
+      model_year: 2023,
+      fuel_type: "Petrol",
+      transmission: "Automatic",
+      color: "Red",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Renault Duster",
+    image: "https://images.app.goo.gl/Ub8RhnKNGZ4B4iQz5",
+    rent_per_day: 2300,
+    details: {
+      model_year: 2022,
+      fuel_type: "Diesel",
+      transmission: "Manual",
+      color: "Silver",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Honda WR-V",
+    image: "https://images.app.goo.gl/v4LoVkVJHgz6bLyy8",
+    rent_per_day: 1900,
+    details: {
+      model_year: 2021,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "White",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Maruti Ciaz",
+    image: "https://images.app.goo.gl/RD4JpuqbGLPfHNoB9",
+    rent_per_day: 1800,
+    details: {
+      model_year: 2021,
+      fuel_type: "Petrol",
+      transmission: "Manual",
+      color: "Brown",
+      seating_capacity: 5,
+    },
+  },
+  {
+    name: "Hyundai Alcazar",
+    image: "https://images.app.goo.gl/u7AxuZgQjLmmwKLs9",
+    rent_per_day: 3200,
+    details: {
+      model_year: 2023,
+      fuel_type: "Diesel",
+      transmission: "Automatic",
+      color: "Dark Green",
+      seating_capacity: 6,
+    },
+  },
+];

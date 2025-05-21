@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const Book = require('./Booking'); // Import the Booking model
 const nodemailer = require('nodemailer');
@@ -8,7 +7,37 @@ const bikeData = require('./bike');
 const destiny = require('./destiny');
 const Gears = require('./gears');
 const User = require('./userSchema');
-const bcrypt = require('bcrypt'); // For password hashing
+const bcrypt = require("bcryptjs");
+
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const uri =
+"mongodb+srv://mudasir:<db_password>@cluster0.fo6zyvl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
 const jwt = require("jsonwebtoken");
 // Create an Express app
 const server = express();
@@ -17,13 +46,7 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-mongoose.connect('mongodb://localhost:27017/Tour')
-    .then(() => {
-        console.log('MongoDB connected successfully');
-    })
-    .catch((err) => {
-        console.error('MongoDB connection error:', err);
-    });
+
 
 
 // Route to get all tours

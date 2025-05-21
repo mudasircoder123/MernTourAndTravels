@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&family=Montserrat&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.one {
+  width: 320px;
+  height: 480px;
+  background-color: white; /* Add contrast if needed */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for card feel */
+  border-radius: 12px; /* Rounded corners */
+  padding: 20px;
+  box-sizing: border-box;
+}
+.heading{
+font-family: 'Poppins', 'Montserrat', sans-serif;
+ color: rgb(220, 20, 60);
+ text-align:center;
+ padding-bottom:12px;
+}
+.sections{
+display:flex;
+margin-top:50px;
+gap :45px;
+}
+.introduction {
+  max-width: 800px;
+  margin: 80px auto; 
+  text-align: center;
+  font-family: 'Poppins', 'Roboto', sans-serif; 
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+.header{
+text-align: center;
+color:blue;
+margin-top: 40px;
+font-size:larger;
+}
+.founder-card{
+margin-top:30px;
+width:500px;
+height:auto;
+border-radius:12px;
+ background-color: #fff;
+box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+margin: 80px auto; 
+  text-align: center;
+  font-family: 'Poppins', 'Roboto', sans-serif; 
+
+}
+.founder-img{
+width:480px;
+height:auto;
+border-radius: 8px;
+}
+.founder-title{
+font-size: 1rem;
+ color: rgb(180, 54, 54);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.founder-name{
+color:rgb(29,55,04);
+margin: 12px;
+}
+.founder-bio{
+font-family:system-ui;;
+}
+.footer{
+background-color: black;
+width:'full';
+height: 320px;
+padding: 40px;
+}
+.footer-grid{
+display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, auto);
+  gap: 30px;
+}
+.footer-item{
+color:#fff;
+cursor: pointer;
+ transition: color 0.3s ease;
+}
+.footer-item:hover {
+  color: #93c5fd; /* Light blue on hover */
+}
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+.fade-in.show {
+  opacity: 1;
+}
