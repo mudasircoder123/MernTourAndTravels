@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import NavbarSidebar from './SideBar';
+import Navbar from './SideBar';
+import authAxios from './AuthAxios';
 const TourList = () => {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -8,7 +9,7 @@ const TourList = () => {
 
   useEffect(() => {
     // Fetch the list of tours from your API
-    fetch('http://localhost:8082/api/destinies')
+   authAxios.get('/destinies')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -35,7 +36,7 @@ const TourList = () => {
 
   return (
   <>
-  <NavbarSidebar/>
+  <Navbar/>
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-purple-100 to-indigo-200 p-4">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Tour Packages</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

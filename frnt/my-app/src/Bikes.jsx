@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import authAxios from './AuthAxios';
 const Bikes = () => {
 const [bikes, setBikes] = useState([]);
 const [loading, setLoading] = useState(true);
@@ -7,7 +7,7 @@ const [error, setError] = useState('');
 
 useEffect(() => {
     // Fetch the bike data from the backend API
-    axios.get('http://localhost:8082/api/bikes')
+    authAxios.get('/bikes')
       .then(response => {
         setBikes(response.data);
         setLoading(false);

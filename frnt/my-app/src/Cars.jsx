@@ -1,6 +1,6 @@
 // src/Cars.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import authAxios from './AuthAxios';
 
 const Cars = () => {
   const [cars, setCars] = useState([]);
@@ -9,7 +9,7 @@ const Cars = () => {
 
   useEffect(() => {
     // Fetch the car data from the backend API
-    axios.get('http://localhost:8082/api/cars')
+    authAxios.get('/cars')
       .then(response => {
         setCars(response.data);
         setLoading(false);

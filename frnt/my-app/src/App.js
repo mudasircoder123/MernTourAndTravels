@@ -5,7 +5,7 @@ import TourDetail from './TripPackage';
 import BookingForm from './BookingForm';
 import TrekkingSlotBooking from './TrekkingSlotBooking';
 import Random from './c0';
-import TourList from './TourCard';
+import TourList from './Tours';
 import Bikes from './Bikes';
 import Cars from './Cars';
 import Register from './Register';

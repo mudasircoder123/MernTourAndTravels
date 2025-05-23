@@ -8,37 +8,18 @@ const destiny = require('./destiny');
 const Gears = require('./gears');
 const User = require('./userSchema');
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+// Your JWT secrets (use environment variables in real apps!)
+const ACCESS_TOKEN_SECRET = "axioudfhtj8467ikb";
+const REFRESH_TOKEN_SECRET = "code34567gdfsthyjkkmnb";
+ let refreshTokens = []; // Store refresh tokens temporarily (use DB in prod)
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri =
-"mongodb+srv://mudasir:<db_password>@cluster0.fo6zyvl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+mongoose.connect("mongodb://localhost:27017/yourdb", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
 
-const jwt = require("jsonwebtoken");
 // Create an Express app
 const server = express();
 
@@ -50,7 +31,7 @@ server.use(cors());
 
 
 // Route to get all tours
-server.get('/api/destinies', async (req, res) => {
+server.get('/api/destinies',authenticateToken, async (req, res) => {
   try {
     const tours = await destiny.find({});
     if (!tours) {
@@ -63,7 +44,7 @@ server.get('/api/destinies', async (req, res) => {
 });
 
 // Get tour by custom 'id'
-server.get('/api/destinies/:id', async (req, res) => {
+server.get('/api/destinies/:id', authenticateToken,async (req, res) => {
   try {
     const { id } = req.params;
     const parsedId = parseInt(id, 10);
@@ -84,7 +65,7 @@ server.get('/api/destinies/:id', async (req, res) => {
 
     
 //route to find cars
-server.get('/api/cars',async(req,res) => {
+server.get('/api/cars',authenticateToken,async(req,res) => {
 const cars = await CarData.find({});
 res.json(cars);
 if(!cars){
@@ -92,7 +73,7 @@ res.json({message:"no cars found"});
 }
 });
 //route to find car by id
-server.get('/api/cars/:id', async (req, res) => {
+server.get('/api/cars/:id',authenticateToken, async (req, res) => {
   const carId = req.params.id;
   // Validate ObjectId format
   if (!mongoose.Types.ObjectId.isValid(carId)) {
@@ -113,7 +94,7 @@ server.get('/api/cars/:id', async (req, res) => {
 });
 
 // route to find bikes
-server.get('/api/bikes',async(req,res) => {
+server.get('/api/bikes',authenticateToken,async(req,res) => {
   const bikes = await bikeData.find({});
   res.json(bikes);
   if(!bikes){
@@ -122,7 +103,7 @@ server.get('/api/bikes',async(req,res) => {
   });
 
 // Route to find a bike by ID
-server.get('/api/bikes/:id', async (req, res) => {
+server.get('/api/bikes/:id',authenticateToken,async (req, res) => {
   const { id } = req.params;
 
   // Validate ObjectId format
@@ -142,7 +123,7 @@ server.get('/api/bikes/:id', async (req, res) => {
   }
 })
 // Route to find  gears
-server.get('/api/gears',async(req,res) => {
+server.get('/api/gears',authenticateToken,async(req,res) => {
  
   const CampingGear = await Gears.find({});
   res.json(CampingGear);
@@ -151,7 +132,7 @@ server.get('/api/gears',async(req,res) => {
   }
   });
 // Route to find  gear by id
-server.get('/api/gears/:id',async(req,res) => {
+server.get('/api/gears/:id', authenticateToken,async(req,res) => {
   const{id} = req.params.id;
   
   // Validate ObjectId format
@@ -203,23 +184,62 @@ server.post('/api/login', async (req, res) => {
   }
 
   try {
-    const userExists = await User.findOne({ email });
-    if (!userExists) {
+    const user = await User.findOne({ email });
+    if (!user) {
       return res.status(400).send('Invalid email or password');
     }
 
-    const isMatch = await bcrypt.compare(password, userExists.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).send('Invalid email or password');
     }
-
+//Create tokens
+    const accessToken = jwt.sign({ userId: user._id, email: user.email },
+      ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+    const refreshToken = jwt.sign({ userId: user._id, email: user.email },
+      REFRESH_TOKEN_SECRET);
+    refreshTokens.push(refreshToken);
+     res.json({ accessToken, refreshToken });
     res.status(200).json({ message: 'Logged in successfully' });
   } catch (err) {
     console.error('Error logging in user:', err);
     res.status(500).send('Server error');
   }
 });
+  
 
+// Token refresh endpoint
+server.post("/api/token", (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.status(401).json({ message: "Refresh token required" });
+  if (!refreshTokens.includes(token)) return res.status(403).json({ message: "Invalid refresh token" });
+
+  jwt.verify(token, REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Invalid refresh token" });
+
+    const accessToken = jwt.sign({ userId: user.userId, email: user.email }, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+    res.json({ accessToken });
+  });
+});
+// Logout endpoint (invalidate refresh token)
+server.post("/api/logout", (req, res) => {
+  const { token } = req.body;
+  refreshTokens = refreshTokens.filter(t => t !== token);
+  res.json({ message: "Logged out successfully" });
+});
+
+  // Middleware to authenticate using access token
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Access token required" });
+
+  jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Invalid access token" });
+    req.user = user;
+    next();
+  });
+}
 // Set the port to listen on
 const PORT = process.env.PORT || 8082;
 server.listen(PORT, () => {

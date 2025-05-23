@@ -11,14 +11,32 @@ const[error,setError] = useState('');
 
 const handleSubmit = (e) => {
 e.preventDefault();
-axios.post('http://localhost:8082/api/login',{email,password}).then( () => {
-alert('User login successfully');
-navigate('/trip');
-}).catch( (error) => {
+  axios.post('http://localhost:8082/api/login', { email, password }).then((response) => {
+    // Save tokens in localStorage (or cookies)
+    localStorage.setItem("accessToken", response.data.accessToken);
+    localStorage.setItem("refreshToken", response.data.refreshToken);
+    alert("User login successfully");
+    navigate("/trip");
+  }).catch( (error) => {
 setError('incorrect email or password')
 console.log(error);
 })
 }
+  // Helper: Refresh Access Token
+  const refreshAccessToken = async () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (!refreshToken) return;
+
+    try {
+      const response = await axios.post("http://localhost:8082/api/token", { token: refreshToken });
+      localStorage.setItem("accessToken", response.data.accessToken);
+    } catch {
+      setError("Session expired. Please login again.");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      navigate("/login");
+    }
+  };
 
   return (
   <>

@@ -3,25 +3,9 @@ import Navbar from './SideBar';
 import { useState,useEffect } from "react";
 import './about.css';
 import img from './image/whattsapp.jpeg';
+import Footer from "./Footer";
 const About = () => {
-const footerItems = [
-  "About Us",
-  "Careers",
-  "Blog",
-  "Press",
-  "Help Center",
-  "Contact Us",
-  "Privacy Policy",
-  "Terms",
-  "FAQ",
-  "Shipping",
-  "Returns",
-  "Order Status",
-  "Affiliate",
-  "Gift Cards",
-  "Store Locator",
-  "Newsletter",
-];
+
    const [show, setShow] = useState(false);
 
    useEffect(() => {
@@ -124,16 +108,9 @@ const footerItems = [
             </p>
           </div>
         </div>
-        <footer className="footer">
-          <div className="footer-grid">
-            {footerItems.map((item, index) => (
-              <div key={index} className="footer-item">
-                {item}
-              </div>
-            ))}
-          </div>
-        </footer>
+
       </div>
+  <Footer/>
     </>
   );
 

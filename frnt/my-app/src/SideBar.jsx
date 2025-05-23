@@ -1,15 +1,25 @@
 import React, { useState } from "react";
-
+import TourList from "./Tours";
+import Cars from "./Cars";
+import Bikes from './Bikes';
+import { Link } from "react-router";
+import { useNavigate } from "react-router";
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [DropOpen, SetDropOpen] = useState(false);
+  const [dropOpen, setDropOpen] = useState(false);
+  const Logout = () => {
+ localStorage.removeItem("accessToken");
+ localStorage.removeItem("refreshToken");
+ navigate("/login");
+}
   return (
     <nav className="bg-white/80 backdrop-blur-md shadow-md fixed w-full z-10 top-0 left-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="#">
+            <a href="#" className="flex items-center">
               <img
                 className="h-10"
                 src="https://stackoverflow.design/assets/img/logos/so/logo-stackoverflow.svg"
@@ -20,85 +30,92 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8 items-center">
-            <a className="text-gray-600 hover:text-blue-500 transition">Home</a>
-            <a className="text-blue-600 font-semibold transition">destinies</a>
+            <Link
+              to="/home"
+              className="text-gray-600 hover:text-blue-500 transition"
+            >
+              Home
+            </Link>
+            <Link
+              to="/tours"
+              className="text-blue-600 font-semibold transition"
+            >
+              Destinies
+            </Link>
 
-            <div class="hs-dropdown relative inline-flex">
+            {/* Actions Dropdown */}
+            <div className="relative inline-block text-left">
               <button
-                id="hs-dropdown-default"
                 type="button"
-                class="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-                aria-haspopup="menu"
-                aria-expanded="false"
-                aria-label="Dropdown"
+                onClick={() => setDropOpen(!dropOpen)}
+                className="inline-flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-haspopup="true"
+                aria-expanded={dropOpen}
               >
                 Actions
                 <svg
-                  class="hs-dropdown-open:rotate-180 size-4"
+                  className={`w-4 h-4 transition-transform ${
+                    dropOpen ? "rotate-180" : ""
+                  }`}
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
                   fill="none"
+                  viewBox="0 0 24 24"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
                 >
-                  <path d="m6 9 6 6 6-6" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </button>
- <div className="relative inline-block text-left">
-      <button
-        id="dropdown-toggle"
-        type="button"
-        aria-haspopup="true"
-        aria-expanded={isOpen}
-        onClick={() => SetDropOpen(!DropOpen)}
-        className="px-4 py-2 bg-blue-600 text-white rounded"
-      >
-        Toggle Dropdown
-      </button>
 
-      <div
-        className={`transition-opacity duration-300 absolute mt-2 min-w-60 bg-white shadow-md rounded-lg ${
-          isOpen ? "opacity-100 block" : "opacity-0 hidden"
-        }`}
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="dropdown-toggle"
-      >
-        <div className="p-1 space-y-0.5">
-          <a
-            className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-            href="#"
-          >
-            Cars
-          </a>
-          <a
-            className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-            href="#"
-          >
-            Bikes
-          </a>
-          <a
-            className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-            href="#"
-          >
-            Camping items
-          </a>
-        </div>
-      </div>
-    </div>
-              
-            <a className="text-gray-600 hover:text-blue-500 transition">
+              {dropOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
+                  <div className="py-1">
+                    <Link
+                      to="/cars"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                    >
+                      Cars
+                    </Link>
+                    <Link
+                      to="/bikes"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                    >
+                      Bikes
+                    </Link>
+                    <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                      Camping Items
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <a
+              href="#"
+              className="text-gray-600 hover:text-blue-500 transition"
+            >
               Pricing
             </a>
-            <a className="text-gray-600 hover:text-blue-500 transition">Blog</a>
-            <a className="text-gray-600 hover:text-blue-500 transition">
+            <a
+              href="#"
+              className="text-gray-600 hover:text-blue-500 transition"
+            >
+              Blog
+            </a>
+            <a
+              href="#"
+              className="text-gray-600 hover:text-blue-500 transition"
+            >
               About Us
             </a>
-            <a className="text-blue-600 font-semibold flex items-center transition">
+            <a
+              href="#"
+              className="text-blue-600 font-semibold flex items-center transition hover:text-blue-700"
+            >
               <svg
                 className="h-5 w-5 mr-1 fill-current"
                 xmlns="http://www.w3.org/2000/svg"
@@ -110,20 +127,19 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* Hamburger / Close Button */}
+          {/* Mobile Hamburger Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 focus:outline-none"
+              className="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 p-2"
+              aria-label="Toggle menu"
             >
               {isOpen ? (
-                // X icon
                 <svg
                   className="h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     strokeLinecap="round"
@@ -133,13 +149,11 @@ const Navbar = () => {
                   />
                 </svg>
               ) : (
-                // Hamburger icon
                 <svg
                   className="h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     strokeLinecap="round"
@@ -154,35 +168,103 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden px-4 pb-4">
-          <a className="block py-2 text-gray-600 hover:text-blue-500">Home</a>
-          <a className="block py-2 text-blue-600 font-semibold">Themes</a>
-          <a className="block py-2 text-gray-600 hover:text-blue-500">
-            Developers
-          </a>
-          <a className="block py-2 text-gray-600 hover:text-blue-500">
-            Pricing
-          </a>
-          <a className="block py-2 text-gray-600 hover:text-blue-500">Blog</a>
-          <a className="block py-2 text-gray-600 hover:text-blue-500">
-            About Us
-          </a>
-          <a className="block py-2 text-blue-600 font-semibold flex items-center">
-            <svg
-              className="h-5 w-5 mr-1 fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
+        <div className="md:hidden bg-white border-t border-gray-200">
+          <div className="px-4 py-2 space-y-1">
+            <a
+              href="#"
+              className="block py-2 text-gray-600 hover:text-blue-500 transition"
             >
-              <path d="M10,17V14H3V10H10V7L15,12L10,17Z" />
-            </svg>
-            Login
-          </a>
+              Home
+            </a>
+            <a href="#" className="block py-2 text-blue-600 font-semibold">
+              Destinies
+            </a>
+
+            {/* Mobile Actions Section */}
+            <div className="py-2">
+              <button
+                onClick={() => setDropOpen(!dropOpen)}
+                className="flex items-center justify-between w-full text-left text-gray-600 hover:text-blue-500 transition"
+              >
+                Actions
+                <svg
+                  className={`w-4 h-4 transition-transform ${
+                    dropOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              {dropOpen && (
+                <div className="ml-4 mt-2 space-y-1">
+                  <a
+                    href="#"
+                    className="block py-1 text-sm text-gray-500 hover:text-blue-500"
+                  >
+                    Cars
+                  </a>
+                  <a
+                    href="#"
+                    className="block py-1 text-sm text-gray-500 hover:text-blue-500"
+                  >
+                    Bikes
+                  </a>
+                  <a
+                    href="#"
+                    className="block py-1 text-sm text-gray-500 hover:text-blue-500"
+                  >
+                    Camping Items
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <a
+              href="#"
+              className="block py-2 text-gray-600 hover:text-blue-500 transition"
+            >
+              Pricing
+            </a>
+            <a
+              href="#"
+              className="block py-2 text-gray-600 hover:text-blue-500 transition"
+            >
+              Blog
+            </a>
+            <a
+              href="#"
+              className="block py-2 text-gray-600 hover:text-blue-500 transition"
+            >
+              About Us
+            </a>
+            <a
+              onClick={Logout}
+              
+              className="block py-2 text-blue-600 font-semibold flex items-center transition hover:text-blue-700"
+            >
+              <svg
+                className="h-5 w-5 mr-1 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path d="M10,17V14H3V10H10V7L15,12L10,17Z" />
+              </svg>
+              Logout
+            </a>
+          </div>
         </div>
       )}
     </nav>
-  
   );
 };
 
