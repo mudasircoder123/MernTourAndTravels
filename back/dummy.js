@@ -3,7 +3,7 @@ const destinations = [
     id: 1,
     title: "Gulmarg",
     description: "Famous for skiing and lush meadows.",
-    imageUrl: "https://images.app.goo.gl/2cRnBbLkWMjdf4Et7",
+    imageUrl: "",
     pricePerDayPerAdult: 2500,
     category: "Mountain",
     itinerary: [
@@ -15,7 +15,8 @@ const destinations = [
     id: 2,
     title: "Pahalgam",
     description: "A beautiful valley with rivers and pine forests.",
-    imageUrl: "https://images.app.goo.gl/Kayda64a84uRdJncA",
+    imageUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoi_iuBuDraZjQUwId_RgD6VwBemf4HmuFABlZYnrj_izKWGqSLI_VquE&s",
     pricePerDayPerAdult: 2400,
     category: "Trekking",
     itinerary: [

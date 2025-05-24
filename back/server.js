@@ -1,10 +1,9 @@
 const express = require('express');
-const cors = require('cors');
+const mongoose = require('mongoose');
 const Book = require('./Booking'); // Import the Booking model
-const nodemailer = require('nodemailer');
 const CarData = require('./car');
 const bikeData = require('./bike');
-const destiny = require('./destiny');
+const Tour = require('./Tours');
 const Gears = require('./gears');
 const User = require('./userSchema');
 const bcrypt = require("bcryptjs");
@@ -13,27 +12,38 @@ const jwt = require("jsonwebtoken");
 const ACCESS_TOKEN_SECRET = "axioudfhtj8467ikb";
 const REFRESH_TOKEN_SECRET = "code34567gdfsthyjkkmnb";
  let refreshTokens = []; // Store refresh tokens temporarily (use DB in prod)
-
-mongoose.connect("mongodb://localhost:27017/yourdb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-
-// Create an Express app
+const cors = require("cors");
 const server = express();
+server.use(cors());
+
+
+// using images
+server.use("/images", express.static("images"));
+
+
 
 // Set up middleware to parse JSON requests
 server.use(express.json());
-server.use(cors());
+// Replace this with your actual MongoDB connection string
+const mongoURI = "mongodb://localhost:27017/TourAndTravel";
+
+// Connect to MongoDB
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected!"))
+.catch((err) => console.error("MongoDB connection error:", err));
+
+
 
 
 
 
 // Route to get all tours
-server.get('/api/destinies',authenticateToken, async (req, res) => {
+server.get('/api/destinies', async (req, res) => {
   try {
-    const tours = await destiny.find({});
+    const tours = await Tour.find({});
     if (!tours) {
       return res.status(404).json({ message: 'Tours not found' });
     }
@@ -44,7 +54,7 @@ server.get('/api/destinies',authenticateToken, async (req, res) => {
 });
 
 // Get tour by custom 'id'
-server.get('/api/destinies/:id', authenticateToken,async (req, res) => {
+server.get('/api/destinies/:id',async (req, res) => {
   try {
     const { id } = req.params;
     const parsedId = parseInt(id, 10);
@@ -52,7 +62,7 @@ server.get('/api/destinies/:id', authenticateToken,async (req, res) => {
       return res.status(400).json({ message: 'Invalid tour ID format' });
     }
 
-    const tour = await destiny.findOne({ id: parsedId });
+    const tour = await Tour.findOne({ id: parsedId });
     if (!tour) {
       return res.status(404).json({ message: 'Tour not found' });
     }
@@ -65,7 +75,7 @@ server.get('/api/destinies/:id', authenticateToken,async (req, res) => {
 
     
 //route to find cars
-server.get('/api/cars',authenticateToken,async(req,res) => {
+server.get('/api/cars',async(req,res) => {
 const cars = await CarData.find({});
 res.json(cars);
 if(!cars){
@@ -73,7 +83,7 @@ res.json({message:"no cars found"});
 }
 });
 //route to find car by id
-server.get('/api/cars/:id',authenticateToken, async (req, res) => {
+server.get('/api/cars/:id',async (req, res) => {
   const carId = req.params.id;
   // Validate ObjectId format
   if (!mongoose.Types.ObjectId.isValid(carId)) {
@@ -94,7 +104,7 @@ server.get('/api/cars/:id',authenticateToken, async (req, res) => {
 });
 
 // route to find bikes
-server.get('/api/bikes',authenticateToken,async(req,res) => {
+server.get('/api/bikes',async(req,res) => {
   const bikes = await bikeData.find({});
   res.json(bikes);
   if(!bikes){
@@ -103,7 +113,7 @@ server.get('/api/bikes',authenticateToken,async(req,res) => {
   });
 
 // Route to find a bike by ID
-server.get('/api/bikes/:id',authenticateToken,async (req, res) => {
+server.get('/api/bikes/:id',async (req, res) => {
   const { id } = req.params;
 
   // Validate ObjectId format
@@ -123,7 +133,7 @@ server.get('/api/bikes/:id',authenticateToken,async (req, res) => {
   }
 })
 // Route to find  gears
-server.get('/api/gears',authenticateToken,async(req,res) => {
+server.get('/api/gears',async(req,res) => {
  
   const CampingGear = await Gears.find({});
   res.json(CampingGear);
@@ -132,7 +142,7 @@ server.get('/api/gears',authenticateToken,async(req,res) => {
   }
   });
 // Route to find  gear by id
-server.get('/api/gears/:id', authenticateToken,async(req,res) => {
+server.get('/api/gears/:id',async(req,res) => {
   const{id} = req.params.id;
   
   // Validate ObjectId format
@@ -193,13 +203,13 @@ server.post('/api/login', async (req, res) => {
     if (!isMatch) {
       return res.status(400).send('Invalid email or password');
     }
-//Create tokens
+/*Create tokens
     const accessToken = jwt.sign({ userId: user._id, email: user.email },
       ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
     const refreshToken = jwt.sign({ userId: user._id, email: user.email },
       REFRESH_TOKEN_SECRET);
     refreshTokens.push(refreshToken);
-     res.json({ accessToken, refreshToken });
+     res.json({ accessToken, refreshToken });*/
     res.status(200).json({ message: 'Logged in successfully' });
   } catch (err) {
     console.error('Error logging in user:', err);
@@ -208,7 +218,7 @@ server.post('/api/login', async (req, res) => {
 });
   
 
-// Token refresh endpoint
+/*Token refresh endpoint
 server.post("/api/token", (req, res) => {
   const { token } = req.body;
   if (!token) return res.status(401).json({ message: "Refresh token required" });
@@ -239,7 +249,7 @@ function authenticateToken(req, res, next) {
     req.user = user;
     next();
   });
-}
+}*/
 // Set the port to listen on
 const PORT = process.env.PORT || 8082;
 server.listen(PORT, () => {

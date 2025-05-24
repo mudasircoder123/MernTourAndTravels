@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Define the schema for Kashmir Destinations
-const destinationSchema = new mongoose.Schema({
+const TourSchema = new mongoose.Schema({
   id: { type: Number, required: true },          // Unique identifier for the destination
   title: { type: String, required: true },       // Name of the destination
   description: { type: String, required: true }, // Detailed description of the destination
@@ -16,6 +16,6 @@ const destinationSchema = new mongoose.Schema({
 });
 
 // Create a model for the destinations using the schema
-const Destination = mongoose.model('Destination', destinationSchema, 'destinations');
+const Tour= mongoose.model('Tour', TourSchema, 'tours')
 
-module.exports = Destination;
+module.exports = Tour;

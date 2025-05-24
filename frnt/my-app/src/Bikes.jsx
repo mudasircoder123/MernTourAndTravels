@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import authAxios from './AuthAxios';
+//import authAxios from './AuthAxios';
+import axios from 'axios';
 const Bikes = () => {
 const [bikes, setBikes] = useState([]);
 const [loading, setLoading] = useState(true);
@@ -7,13 +8,14 @@ const [error, setError] = useState('');
 
 useEffect(() => {
     // Fetch the bike data from the backend API
-    authAxios.get('/bikes')
-      .then(response => {
+    axios
+      .get("http://localhost:8082/api/bikes")
+      .then((response) => {
         setBikes(response.data);
         setLoading(false);
       })
-      .catch(err => {
-        setError('Failed to fetch bikes');
+      .catch((err) => {
+        setError("Failed to fetch bikes");
         setLoading(false);
       });
   }, []);

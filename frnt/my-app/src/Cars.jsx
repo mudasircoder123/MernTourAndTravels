@@ -1,27 +1,22 @@
 // src/Cars.js
 import React, { useState, useEffect } from 'react';
-import authAxios from './AuthAxios';
-
+//import authAxios from './AuthAxios';
+import axios from 'axios';
 const Cars = () => {
   const [cars, setCars] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+ 
 
-  useEffect(() => {
-    // Fetch the car data from the backend API
-    authAxios.get('/cars')
-      .then(response => {
-        setCars(response.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError('Failed to fetch Cars');
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+useEffect(() => {
+  axios
+    .get("http://localhost:8082/api/cars")
+    .then((response) => {
+      setCars(response.data);
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+    });
+}, []);
+  
 
   return (
     <div className="flex flex-wrap justify-center gap-6 py-10">

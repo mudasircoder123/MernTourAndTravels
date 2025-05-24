@@ -12,7 +12,7 @@ import Register from './Register';
 import SignInForm from './Sign';
 import About from './About';
 import Home from './Home';
-
+import CampingGearList from './Gears';
 const App = () => {
   return (
     <Router>
@@ -23,10 +23,10 @@ const App = () => {
 
           <Route path="/" element={<SignInForm />} />
           <Route path='/home' element={<Home/>} />
-          <Route path="/trip" element={<TourList />} />
+          <Route path="/tours" element={<TourList />} />
 
           {/* Define the route for the trip package details page */}
-          <Route path="/trip/:id" element={<TourDetail />} />
+          <Route path="/tours/:id" element={<TourDetail />} />
 
           {/* Define the route for the trekking slot booking page */}
           <Route path="/trekking" element={<TrekkingSlotBooking />} />
@@ -37,6 +37,7 @@ const App = () => {
           <Route path="/bikes" element={<Bikes />} />
           <Route path="/cars" element={<Cars />} />
           <Route path="/about" element={<About />} />
+        <Route path='/gears' element={<CampingGearList/>}/>
         </Routes>
       </div>
       

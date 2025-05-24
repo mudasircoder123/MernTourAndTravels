@@ -1,3 +1,4 @@
+
 const campingGearItems = [
   {
     id: 1,
@@ -7,7 +8,7 @@ const campingGearItems = [
     price: 8500,
     brand: "Wildcraft",
     features: ["Waterproof", "Easy setup", "Wind resistant"],
-    image: "https://g.co/kgs/CX4qsdj",
+    image: './images/campingimages/img1.jpg',
   },
   {
     id: 2,
